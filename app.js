@@ -30,7 +30,7 @@ app.post("/registration", async (req, res)=>{
              userModel.create({name,email,age,username,password:hash})
         })
 
-        let token = jwt.sign({email: email , userid: user._id}, "ddsdsss");
+        let token = jwt.sign({email: email , username: username}, "ddsdsss");
         res.cookie("token" , token);
         res.send("Registered");
     })
