@@ -1,5 +1,6 @@
 const express = require('express');
 const userModel = require("./models/user");
+const postModel = require("./models/post");
 const cookieParser = require('cookie-parser');
 
 
@@ -10,11 +11,9 @@ app.use(express.json())
 app.use(express.urlencoded({extended: true}));
 app.use(cookieParser())
 const bcrypt = require('bcrypt');
-
-
+const jwt = require("jsonwebtoken")
 
 const saltRounds = 10;
-
 
 app.get("/" , (req , res) => {
     res.render("index")
@@ -30,6 +29,10 @@ app.post("/registration", async (req, res)=>{
         bcrypt.hash(password,salt,(error,hash) =>{
              userModel.create({name,email,age,username,password:hash})
         })
+
+        let token = jwt.sign({email: email , userid: user._id}, "ddsdsss");
+        res.cookie("token" , token);
+        res.send("Registered");
     })
         
 })
