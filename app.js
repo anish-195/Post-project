@@ -32,6 +32,11 @@ app.get("/loggedout", isLoggedin, (req, res) => {
   res.redirect("/login");
 });
 
+app.get("/profile", isLoggedin, (req, res) => {
+  res.render("profile", { user: req.user });
+});
+
+
 // registration
 app.post("/registration", async (req, res) => {
   let { name, email, age, username, password } = req.body;
@@ -78,7 +83,7 @@ app.post("/registration", async (req, res) => {
 app.post("/login", async (req, res) => {
   let { email, password } = req.body;
 
-  let user = await userModel.findOne({ email, password });
+  let user = await userModel.findOne({ email });
   if (!user) return res.status(500).send("Samething wrong ");
 
   let match = await bcrypt.compare(password, user.password);
@@ -89,8 +94,7 @@ app.post("/login", async (req, res) => {
 
   res.cookie("token", token);
 
-  if (match) return res.status(200).send("Login successful");
-  else res.redirect("/register");
+  if (match) return res.status(200).redirect("/profile");
 });
 
 function isLoggedin(req, res, next) {
@@ -101,7 +105,8 @@ function isLoggedin(req, res, next) {
     if (err) return res.status(401).send("Unauthorized");
     req.user = decoded;
     next();
-  });
+  }
+);
 }
 
 app.listen(process.env.PORT, () => {
