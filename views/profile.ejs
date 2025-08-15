@@ -1,19 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <title>Registration Form</title>
+    <title>Registration Form</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100 flex items-center justify-center min-h-screen">
 
-    <div class="bg-white p-8 rounded-xl shadow-md w-full max-w-md">
-        <h1 class="text-2xl font-bold mb-6 text-center">Profile</h1>
+<body class="bg-zinc-800">
 
 
-        <button type="submit" class="mt-4 w-full bg-blue-500 text-white p-2 rounded-md"><a href="/logout">Logout</a></button>
+    <h1 class="font-bold p-5 text-white">Profile <span class="font-normal text-blue-500">@<%= user.username %></span></h1>
+    <div class="mt-6">
+        <a href="/loggedout"
+            class="px-5 py-3 bg-blue-500 text-white py-2 rounded-lg hover:bg-red-600 transition duration-200">
+            Logout
+        </a>
     </div>
 
 </body>
+
 </html>

@@ -33,6 +33,9 @@ app.get("/loggedout", isLoggedin, (req, res) => {
 });
 
 app.get("/profile", isLoggedin, (req, res) => {
+
+    userModel.findOne({email: req.user.email})
+
   res.render("profile", { user: req.user });
 });
 

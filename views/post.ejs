@@ -9,11 +9,33 @@
 <body class="bg-gray-100 flex items-center justify-center min-h-screen">
 
     <div class="bg-white p-8 rounded-xl shadow-md w-full max-w-md">
-        <h1 class="text-2xl font-bold mb-6 text-center">post Form</h1>
+        <h1 class="text-2xl font-bold mb-6 text-center">Login Form</h1>
 
-        <form action="/" method="POST" class="space-y-4">
+        <form action="/login" method="POST" class="space-y-4">
             
-        
+
+            <!-- Email -->
+            <div>
+                <label class="block mb-1 text-gray-700">Email</label>
+                <input type="email" name="email" placeholder="Enter your email" required
+                    class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+
+
+            <!-- Password -->
+            <div>
+                <label class="block mb-1 text-gray-700">Password</label>
+                <input type="password" name="password" placeholder="Enter your password" required
+                    class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+
+            <!-- Submit Button -->
+            <div>
+                <button type="submit"
+                    class="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition duration-200" value="Login">
+                    Login
+                </button>
+            </div>
 
         </form>
     </div>
