@@ -2,16 +2,16 @@ const express = require('express');
 const userModel = require("./models/user");
 const postModel = require("./models/post");
 const cookieParser = require('cookie-parser');
+const jwt = require("jsonwebtoken")
+const bcrypt = require('bcrypt');
 
 
 const app  =  express();
+app.use(cookieParser())
 
 app.set("view engine" , "ejs");
 app.use(express.json())
 app.use(express.urlencoded({extended: true}));
-app.use(cookieParser())
-const bcrypt = require('bcrypt');
-const jwt = require("jsonwebtoken")
 
 const saltRounds = 10;
 
@@ -22,8 +22,8 @@ app.get("/" , (req , res) => {
 
 app.post("/registration", async (req, res)=>{
     let {name, email, age, username, password} = req.body;
-    // let user = await userModel.findOne({email})
-    // if(user) return res.status(500).send("You are already LogIn")
+    let user = await userModel.findOne({email})
+    if(user) return res.status(500).send("You are already LogIn")
     
     bcrypt.genSalt(saltRounds, (err,salt)=>{
         bcrypt.hash(password,salt,(error,hash) =>{
@@ -32,8 +32,20 @@ app.post("/registration", async (req, res)=>{
 
         let token = jwt.sign({email: email , username: username}, "ddsdsss");
         res.cookie("token" , token);
-        res.send("Registered");
+        res.render("Registered");
     })
+        
+})
+
+app.post("/login", async (req, res)=>{
+    let {email,password} = req.body;
+
+    let user = await userModel.findOne({email})
+    if (!user)  return res.status(500).send("Samething wrong ")
+
+    let match = await bcrypt.compare(password, user.password);
+    if (!match) return res.status(500).send("Samething wrong ")
+
         
 })
 
