@@ -32,13 +32,29 @@ app.get("/loggedout", isLoggedin, (req, res) => {
   res.redirect("/login");
 });
 
-app.get("/profile", isLoggedin, (req, res) => {
+app.get("/profile", isLoggedin, async (req, res) => {
+  let user = await userModel
+    .findOne({ email: req.user.email })
+    .populate("posts");  // ✅ populate posts so you get actual post objects
 
-    userModel.findOne({email: req.user.email})
-
-  res.render("profile", { user: req.user });
+  res.render("profile", { user });
 });
 
+
+
+app.post("/profile", isLoggedin, async (req, res) => {
+  let { content, title } = req.body;
+  let post = await postModel.create({
+    content,
+    title
+  });
+
+  let user = await userModel.findOne({ email: req.user.email });
+  user.posts.push(post);
+  await user.save();
+
+  res.redirect("/profile");
+});
 
 // registration
 app.post("/registration", async (req, res) => {
@@ -108,8 +124,7 @@ function isLoggedin(req, res, next) {
     if (err) return res.status(401).send("Unauthorized");
     req.user = decoded;
     next();
-  }
-);
+  });
 }
 
 app.listen(process.env.PORT, () => {

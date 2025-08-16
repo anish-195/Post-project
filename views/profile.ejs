@@ -8,17 +8,63 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="bg-zinc-800">
+<body class="bg-zinc-800 text-white p-5 my-5 mx-3">
 
+    <!-- Profile Section -->
+    <div>
+        <div class="flex items-center justify-between">
+            <h1 class="font-bold text-white">
+                Profile <span class="font-normal text-blue-500">@<%= user.username %></span>
+            </h1>
 
-    <h1 class="font-bold p-5 text-white">Profile <span class="font-normal text-blue-500">@<%= user.username %></span></h1>
-    <div class="mt-6">
-        <a href="/loggedout"
-            class="px-5 py-3 bg-blue-500 text-white py-2 rounded-lg hover:bg-red-600 transition duration-200">
-            Logout
-        </a>
+            <!-- Logout Button -->
+            <div class="mt-6">
+                <a href="/loggedout"
+                    class="px-5 py-3 bg-blue-500 text-white rounded-lg hover:bg-red-600 transition duration-200">
+                    Logout
+                </a>
+            </div>
+        </div>
+
+        <!-- Create Post Card -->
+        <div class="text-white  flex items-center justify-center">
+            <form action="/profile" method="POST">
+            <div class="w-full max-w-md bg-gray-800 rounded-2xl shadow-lg mb-3">
+
+                <h1 class="text-xl font-semibold mb-3">
+                    Hello, <%= user.username %>👋
+                </h1>
+                <p class="text-gray-400 mb-4">you can create a new post.</p>
+
+                <input type="text" name="title" class="w-full p-3 rounded-lg bg-gray-700 text-white mb-3 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Post Title">
+                <textarea
+                    class="w-full p-3 rounded-lg bg-gray-700 text-white mb-3 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    rows="3" placeholder="What's on your mind ?" name="content"></textarea>
+
+                <button
+                    class="mt-4 w-full bg-blue-600 mb-3 hover:bg-blue-700 transition-colors py-2 rounded-lg font-medium" type="submit">
+                    Create New Post
+                </button>
+            </div>
+        </div>
+        </form>
     </div>
+<!-- Post Section -->
+<h1 class="text-xl font-semibold mt-6 mb-3">Your Posts</h1>
+<ul class="space-y-4">
+  <% user.posts.forEach(post => { %>
+    <li class="bg-gray-800 p-4 rounded-lg">
+      <p class="text-gray-200"><%= post.title %></p>
+
+      <p class="text-gray-200"><%= post.content %></p>
+      <span class="text-gray-500 text-sm">
+        Posted on <%= post.date.toDateString() %>
+      </span>
+    </li>
+  <% }) %>
+</ul>
 
 </body>
+
 
 </html>
