@@ -88,7 +88,7 @@ app.post("/registration", async (req, res) => {
         );
 
         res.cookie("token", token);
-        res.status(201).send("Registered successfully");
+        res.status(201).redirect("/profile");
       });
     });
   } catch (error) {
