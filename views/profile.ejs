@@ -60,6 +60,12 @@
       <span class="text-gray-500 text-sm">
         Posted on <%= post.date.toDateString() %>
       </span>
+      <div>
+        <form action="/like/<%= post._id %>" method="POST">
+          <button type="submit" class="text-blue-500 hover:underline">Like</button>
+        </form>
+        <a href="/edit/<%= post._id %>" class="text-blue-500 hover:underline">Edit</a>
+      </div>
     </li>
   <% }) %>
 </ul>

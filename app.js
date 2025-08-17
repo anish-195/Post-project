@@ -8,12 +8,16 @@ const bcrypt = require("bcrypt");
 const app = express();
 app.use(cookieParser());
 
+
+
 app.set("view engine", "ejs");
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 const saltRounds = 10;
 
+
+// all Router
 app.get("/", (req, res) => {
   res.render("index");
 });
@@ -55,6 +59,19 @@ app.post("/profile", isLoggedin, async (req, res) => {
 
   res.redirect("/profile");
 });
+
+
+// edit function
+app.get("/edit/:id", isLoggedin,async (req,res) =>{
+  let post = await postModel.findOne({_id: req.params.id})
+  res.render("edit", { post })
+})
+
+app.post("/edit/:id", isLoggedin,async (req,res) =>{
+  let {title,content} = req.body
+  let post =  await postModel.findByIdAndUpdate(req.params.id,{title,content})
+  res.redirect("/profile")
+})
 
 // registration
 app.post("/registration", async (req, res) => {

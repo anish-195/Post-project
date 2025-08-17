@@ -10,7 +10,11 @@ const postSchema = mongoose.Schema({
         default:Date.now
     },
     content: String,
-    title: String
+    title: String,
+    like: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "user"
+    }]
 });
 
 module.exports =  mongoose.model("post" , postSchema);
